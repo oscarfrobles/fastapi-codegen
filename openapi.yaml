@@ -1,0 +1,274 @@
+openapi: 3.0.3
+info:
+  title: Swagger DRF - OpenAPI 3.0
+  description: |-
+    This is the DRF api first
+  contact:
+    email: oskijob@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+servers:
+  - url: http://0.0.0.0:8000
+tags:
+  - name: customers
+    description: DRF customers
+  - name: subcustomers
+    description: DRF customers locations
+  - name: address
+    description: DRF address locations
+  - name: products
+    description: DRF products
+  #- name: user
+  #  description: Operations about user
+paths:
+  /customers/:
+    get:
+      tags:
+        - customers
+      summary: Get List customer
+      description: Get List customer
+      operationId: getCustomer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+        default:
+          description: Validation exception
+        '500':
+          description: Server error
+    post:
+      tags:
+        - customers
+      summary: Post new customer
+      description: Post new customer
+      operationId: postCustomer
+      requestBody:
+        description: Create a new customer
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+        default:
+          description: Validation exception
+        '500':
+          description: Server error
+
+  /customers/{id}/:
+    get:
+      tags:
+        - customers
+      summary: Get customer from id
+      description: Get customer from id
+      operationId: getCustomerId
+      parameters:
+      - $ref: '#/components/parameters/id'
+
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+        default:
+          description: Validation exception
+        '500':
+          description: Server error
+    delete:
+      tags:
+        - customers
+      summary: Delete a Customer
+      description: Delete a Customer
+      operationId: delCustomer
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+
+  /subcustomers_read/:
+    get:
+      tags:
+        - subcustomers  
+      operationId: getSubcustomer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCustomer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+        default:
+          description: Validation exception
+        '500':
+          description: Server error
+        
+  /addresses/:
+    get:
+      tags: 
+        - address
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Addresses'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+        default:
+          description: Validation exception
+        '500':
+          description: Server error
+    post:
+      tags:
+        - address
+      summary: Post new address
+      description: Post new address
+      operationId: postAddress
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Addresses'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+        default:
+          description: Validation exception
+        '500':
+          description: Server error
+
+  /products/:
+    get:
+      tags: 
+        - products
+      responses:
+        '200': 
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+
+
+
+
+
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Id customer
+      required: True
+      schema:
+        type: integer
+
+  schemas:
+    Customer:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+    SubCustomer:
+      type: object
+      required:
+        - name
+        - customer_id
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        customer_id:
+          $ref: '#/components/schemas/Customer'
+        name:
+          type: string
+        subcustomer_addresses:
+          $ref: '#/components/schemas/Addresses'
+    Addresses:
+      type: object
+      required:
+        - address
+        - cp
+        - city
+        - country
+      properties:
+        address:
+          type: string
+        cp: 
+          type: integer
+          format: int64
+          example: 28047
+        city: 
+          type: string
+        country:
+          type: string
+    Products:
+      type: object
+      required: 
+        - name
+      properties:
+        name: 
+          type: string
+        short_name:
+          type: string
