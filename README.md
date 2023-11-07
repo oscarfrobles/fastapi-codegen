@@ -1,4 +1,2 @@
-Para generar el código command:
+Generate code command:
 fastapi-codegen --input openapi.yaml --output app
-
-Para iniciar con docker correr ini_docker aunque funciona realizando luego cambios en el contenedor
